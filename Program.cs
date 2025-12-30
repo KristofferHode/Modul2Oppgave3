@@ -20,11 +20,11 @@ class Program
 
         }
 
-        foreach (var t in threads)
-        {
-            t.Join();
-        }
+        //foreach (var t in threads)
+      //  {
+      //      t.Join();
+      //  }
         
-        Console.WriteLine("All drones completed");
+       // Console.WriteLine("All drones completed");
     }
 }
