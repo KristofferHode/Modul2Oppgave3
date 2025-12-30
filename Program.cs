@@ -21,11 +21,11 @@ class Program
 
         }
 
-      /*  foreach (var t in threads)
+        foreach (var t in threads)
         {
             t.Join();
         }
-       */ 
+       
         Console.WriteLine("All drones completed");
     }
 }
