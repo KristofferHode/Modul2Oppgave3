@@ -15,6 +15,7 @@ class Program
         foreach (var drone in drones)
         {
             Thread t =new Thread(DroneWorker.FlyDrone);
+            t.IsBackground=true; //dette skal gjøre så jeg akn se forkjellt med og uten join.
             threads.Add(t);
             t.Start(drone);
 
