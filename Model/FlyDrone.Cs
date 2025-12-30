@@ -1,12 +1,19 @@
-static void Flydrone(object? obj)
+namespace Modul2Oppgave3;
+
+public static class DroneWorker
 {
-    DroneModel drone = (DroneModel)obj!;
-    for(int i = 1; i <= drone.MaxCheckpoints; i++)
+
+
+    public static void FlyDrone(object? obj)
     {
-        Console.WriteLine($"{drone.Name} arrived at checkpoint");
-        Thread.Sleep(drone.DelayMs);
+        DroneModel drone = (DroneModel)obj!;
+        for(int i = 1; i <= drone.MaxCheckpoints; i++)
+        {
+            Console.WriteLine($"{drone.Name} arrived at checkpoint {i}");
+            Thread.Sleep(drone.DelayMs);
 
+        }
+
+        Console.WriteLine($"{drone.Name} completed delivery");
     }
-
-    Console.WriteLine($"{drone.Name} completed delivery");
 }

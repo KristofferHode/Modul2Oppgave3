@@ -14,9 +14,17 @@ class Program
         List<Thread> threads = new();
         foreach (var drone in drones)
         {
-            Thread t =new Thread(FlyDrone);
+            Thread t =new Thread(DroneWorker.FlyDrone);
             threads.Add(t);
             t.Start(drone);
+
         }
+
+        foreach (var t in threads)
+        {
+            t.Join();
+        }
+        
+        Console.WriteLine("All drones completed");
     }
 }
