@@ -1,0 +1,42 @@
+using System.Net.Http.Json;
+
+namespace Modul2Oppgave3;
+
+public class ControlTowerClient
+{
+    private readonly HttpClient _http;
+
+    public ControlTowerClient(HttpClient http)
+    {
+        _http = http;
+        _http.Timeout = TimeSpan.FromSeconds(3);
+    }
+
+    public async Task<string> GetWeatherAsync()
+    {
+        Console.WriteLine("Fetching weather data...");
+
+        try
+        {
+            var post = await _http.GetFromJsonAsync<PostDto>(
+                "https://jsonplaceholder.typicode.com/posts/1");
+
+            if (post is null)
+                throw new Exception("No data from API");
+
+            // Fake weather mapping
+            return post.UserId switch
+            {
+                <= 3 => "clear",
+                <= 6 => "wind",
+                _ => "storm"
+            };
+        }
+        catch (TaskCanceledException)
+        {
+            throw new Exception("Weather service timeout");
+        }
+    }
+
+    private record PostDto(int UserId);
+}
