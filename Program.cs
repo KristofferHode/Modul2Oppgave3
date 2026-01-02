@@ -11,21 +11,25 @@ class Program
             new DroneModel{Name="Prometheus",MaxCheckpoints=4,DelayMs=600},
             new DroneModel{Name="FlashGordon",MaxCheckpoints=7,DelayMs=1100},
         };
-        List<Thread> threads = new();
-        foreach (var drone in drones)
+        List<Task> tasks = new();
+        foreach(var drone in drones)
         {
-            Thread t =new Thread(DroneWorker.FlyDrone);
-            t.IsBackground=true; //dette skal gjøre så jeg akn se forkjellt med og uten join.
-            threads.Add(t);
-            t.Start(drone);
+            tasks.Add(DroneRunner.RunDroneAsync(drone));
 
         }
-
-        foreach (var t in threads)
+        try
         {
-            t.Join();
+            await Task.WhenAll(tasks);
+            Console.WriteLine("all drones completed their delivery");
         }
-       
-        Console.WriteLine("All drones completed");
+        catch
+        {
+            Console.WriteLine("One or more drones failed");
+            foreach (var task in tasks.Where(t=> t.IsFaulted))
+            {
+                Console.WriteLine(task.Exception!.InnerException!.Message);
+            }
+        }
+
     }
 }
