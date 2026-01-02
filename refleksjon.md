@@ -6,4 +6,7 @@ I denne oppgaven ble det implementert Task og TaskCompletionSource for å signal
 hver drone fullfører sin Task og Task.WhenAll brukes for å vente på alle uten å blokkere hovedtråden. Sammenlignet med Thread og Join gir dette bedre kontroll og tydligere feilhåndtering, men er mer komplisert å implementere.
 
 C
+Ved å bruke Async/await blir programet mye mer lesbart, task fullføres når metoden er ferdig og exceptions propagerer direkte til Task.Whenall uten behov for taskCompletionSource. Dettte fjerner mye boilerplate kode og gjør løsningen enkelere å vedlikeholde samtidig som funksjonalitet blir den samme.
+
+D
 
