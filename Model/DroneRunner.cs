@@ -3,7 +3,7 @@ public static class DroneRunner
 {
     public static Task RunDroneAsync(DroneModel drone)
     {
-        var tcs=new TaskCompletionSource();
+        var tcs=new TaskCompletionSource<bool>();
         Task.Run(async () =>
         {
             try
@@ -15,14 +15,14 @@ public static class DroneRunner
                 {
                     Console.WriteLine($"{drone.Name} -> checkpoint {i}");
 
-                    //engine failiure
+                    //engine failiure simmulation
                     if (drone.Name == "Hermes" && i==2)
                     throw new InvalidOperationException("Engine failiure at checkpoint");
                     await Task.Delay(drone.DelayMs);
                 }  
 
             Console.WriteLine($"{drone.Name} complete");
-            tcs.SetResult(); 
+            tcs.SetResult(true); 
             }
         
         catch(Exception ex)
@@ -32,6 +32,8 @@ public static class DroneRunner
             }
 
         });
+
+        return tcs.Task;
     }
 
 

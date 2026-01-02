@@ -1,8 +1,10 @@
-﻿namespace Modul2Oppgave3;
+﻿using System.Threading.Tasks;
+
+namespace Modul2Oppgave3;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         List<DroneModel> drones= new()
         {
