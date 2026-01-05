@@ -1,7 +1,4 @@
 ﻿
-
-using System.ComponentModel.DataAnnotations;
-
 namespace Modul2Oppgave3;
 
 class Program
@@ -15,20 +12,30 @@ class Program
             new DroneModel{Name="Prometheus",MaxCheckpoints=4,DelayMs=600},
             new DroneModel{Name="FlashGordon",MaxCheckpoints=7,DelayMs=1100},
         };
-       
-       var tasks = drones.Select(DroneAsyncRunner.RunDroneAsync).ToList();
+
+        var httpClient= new HttpClient();
+        var controlTower= new ControlTowerClientAPI(httpClient);
+
         try
         {
-            await Task.WhenAll(tasks);
-            Console.WriteLine("All drones compledted successfully");
+            var weather = await controlTower.GetWeatherAsync();
+            Console.WriteLine($"Weather condition: {weather}");
+        
+
+        foreach (var drone in drones)
+        {
+            if (weather == "wind")drone.DelayMs+=300;
+            if (weather == "storm") drone.DelayMs += 700;
+        }
+
+        var tasks =drones.Select(DroneAsyncRunner.RunDroneAsync);
+        await Task.WhenAll(tasks);
+
+        Console.WriteLine("all drones completed");
         }
         catch(Exception ex)
         {
-            Console.WriteLine("One or more drones failed");
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Control tower error: {ex.Message}");
         }
-
-        
-
     }
 }

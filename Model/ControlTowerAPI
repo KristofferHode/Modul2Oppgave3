@@ -6,7 +6,7 @@ public class ControlTowerClient
 {
     private readonly HttpClient _http;
 
-    public ControlTowerClient(HttpClient http)
+    public ControlTowerClientAPI(HttpClient http)
     {
         _http = http;
         _http.Timeout = TimeSpan.FromSeconds(3);
